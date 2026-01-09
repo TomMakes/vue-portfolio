@@ -1,38 +1,114 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import MainHeader from './components/MainHeader.vue'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const name = ref('Unknown')
+const router = useRouter()
 
 const getName = async () => {
   const res = await fetch('/api/')
   const data = await res.json()
   name.value = data.name
 }
+
+const navigateToFrontend = () => {
+  router.push('/frontend')
+}
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-      <button class="green" @click="getName" aria-label="get name">
-        Name from API is: {{ name }}
-      </button>
-      <p>Edit <code>server/index.ts</code> to change what the API gets</p>
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+  <div class="app-container">
+    <div class="main-content">
+      <MainHeader />
+      <div>
+        <h3> Hi, I'm Tom. </h3>
+        <h3> Learn more about me as a </h3>
+      </div>
+      <ul>
+        <li> Professional </li>
+        <li> Full Stack Engineer </li>
+        <li @click="navigateToFrontend" class="clickable"> Front End Engineer </li>
+        <li> Back End Engineer </li>
+      </ul>
     </div>
-  </header>
-
-  <RouterView />
+    <Transition name="slide">
+      <div class="route-view" v-if="$route.path !== '/'">
+        <RouterView />
+      </div>
+    </Transition>
+  </div>
 </template>
 
 <style scoped>
+.app-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.route-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Slide transition */
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide-enter-from {
+  transform: translateX(100%);
+}
+
+.slide-enter-to {
+  transform: translateX(0);
+}
+
+.slide-leave-from {
+  transform: translateX(0);
+}
+
+.slide-leave-to {
+  transform: translateX(-100%);
+}
+
+/* When route is active, push main content to the left */
+.app-container:has(.route-view) .main-content {
+  transform: translateX(-100%);
+}
+
+.clickable {
+  cursor: pointer;
+  text-decoration: underline;
+  color: var(--color-link);
+  transition: opacity 0.2s;
+}
+
+.clickable:hover {
+  opacity: 0.7;
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;
