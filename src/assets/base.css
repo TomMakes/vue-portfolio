@@ -1,6 +1,6 @@
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
-  --vt-c-white: #ffffff;
+  --vt-c-white: #F2F0EF;
   --vt-c-white-soft: #f8f8f8;
   --vt-c-white-mute: #f2f2f2;
 
@@ -17,8 +17,11 @@
 
   --vt-c-text-light-1: var(--vt-c-indigo);
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
+  --vt-c-text-light-link: #244F4B;
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+  --vt-c-text-dark-link: #588C87;
+
 }
 
 /* semantic color variables for this project */
@@ -32,6 +35,7 @@
 
   --color-heading: var(--vt-c-text-light-1);
   --color-text: var(--vt-c-text-light-1);
+  --color-link: var(--vt-c-text-light-link);
 
   --section-gap: 160px;
 }
@@ -47,6 +51,7 @@
 
     --color-heading: var(--vt-c-text-dark-1);
     --color-text: var(--vt-c-text-dark-2);
+    --color-link: var(--vt-c-text-dark-link);
   }
 }
 
@@ -59,14 +64,16 @@
 }
 
 body {
-  min-height: 100vh;
+  min-height: 100vh; /* Why is this here? */
   color: var(--color-text);
   background: var(--color-background);
-  transition:
+  transition: /* Why is this here? */
     color 0.5s,
     background-color 0.5s;
+  font-weight: normal;
   line-height: 1.6;
   font-family:
+    'Readex Pro',
     Inter,
     -apple-system,
     BlinkMacSystemFont,
@@ -83,4 +90,8 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+  font-family: 'PT Serif'
 }
