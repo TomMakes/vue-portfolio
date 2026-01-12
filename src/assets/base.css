@@ -93,5 +93,6 @@ body {
 }
 
 p {
-  font-family: 'PT Serif'
+  font-family: 'PT Serif';
+  line-height: 1.5;
 }

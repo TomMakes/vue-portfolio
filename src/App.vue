@@ -24,16 +24,16 @@ const navigateToFrontend = () => {
   <div class="app-container">
     <div class="main-content">
       <MainHeader />
-      <div>
+      <div class="intro">
         <h3> Hi, I'm Tom. </h3>
-        <h3> Learn more about me as a </h3>
+        <h3> Learn more about me as a... </h3>
+        <ul>
+          <li> Professional </li>
+          <li> Full Stack Engineer </li>
+          <li @click="navigateToFrontend" class="clickable"> Front End Engineer </li>
+          <li> Back End Engineer </li>
+        </ul>
       </div>
-      <ul>
-        <li> Professional </li>
-        <li> Full Stack Engineer </li>
-        <li @click="navigateToFrontend" class="clickable"> Front End Engineer </li>
-        <li> Back End Engineer </li>
-      </ul>
     </div>
     <Transition name="slide">
       <div class="route-view" v-if="$route.path !== '/'">
@@ -44,6 +44,11 @@ const navigateToFrontend = () => {
 </template>
 
 <style scoped>
+.intro {
+  font-size: 3rem;
+  max-width: fit-content;
+  margin: auto;
+}
 .app-container {
   position: relative;
   width: 100%;
@@ -90,7 +95,7 @@ const navigateToFrontend = () => {
 }
 
 .slide-leave-to {
-  transform: translateX(-100%);
+  transform: translateX(100%);
 }
 
 /* When route is active, push main content to the left */
