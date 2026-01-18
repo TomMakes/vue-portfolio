@@ -2,11 +2,12 @@
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import MainHeader from './components/MainHeader.vue'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { reactive, ref, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
 const name = ref('Unknown')
 const router = useRouter()
+const route = useRoute()
 
 const getName = async () => {
   const res = await fetch('/api/')
@@ -14,29 +15,59 @@ const getName = async () => {
   name.value = data.name
 }
 
+const navigateToAbout = () => {
+  transitionObject['state-center'] = false;
+  transitionObject['state-down'] = true;
+  router.push('/about')
+}
 const navigateToFrontend = () => {
+  transitionObject['state-center'] = false;
+  transitionObject['state-left'] = true;
   router.push('/frontend')
 }
+const transitionObject = reactive({
+  'state-left': false,
+  'state-up': false,
+  'state-right': false,
+  'state-down': false,
+  'state-center': true,
+});
+
+watch(() => route.path, (newPath) => {
+  if (newPath === '/') {
+    transitionObject['state-center'] = true;
+    transitionObject['state-left'] = false;
+    transitionObject['state-up'] = false;
+    transitionObject['state-right'] = false;
+    transitionObject['state-down'] = false;
+  }
+})
 
 </script>
 
 <template>
   <div class="app-container">
-    <div class="main-content">
+    <div class="intro-content" :class="transitionObject">
       <MainHeader />
       <div class="intro">
         <h3> Hi, I'm Tom. </h3>
         <h3> Learn more about me as a... </h3>
         <ul>
-          <li> Professional </li>
+          <li @click="navigateToAbout" class="clickable"> Professional </li>
           <li> Full Stack Engineer </li>
           <li @click="navigateToFrontend" class="clickable"> Front End Engineer </li>
           <li> Back End Engineer </li>
         </ul>
       </div>
     </div>
-    <Transition name="slide">
-      <div class="route-view" v-if="$route.path !== '/'">
+    <!-- documentation https://vuejs.org/guide/built-ins/transition -->
+    <Transition name="slide-left">
+      <div class="route-view" v-if="$route.path === '/frontend'">
+        <RouterView />
+      </div>
+    </Transition>
+    <Transition name="slide-down">
+      <div class="route-view" v-if="$route.path === '/about'">
         <RouterView />
       </div>
     </Transition>
@@ -56,7 +87,7 @@ const navigateToFrontend = () => {
   overflow: hidden;
 }
 
-.main-content {
+.intro-content {
   position: absolute;
   top: 0;
   left: 0;
@@ -76,31 +107,64 @@ const navigateToFrontend = () => {
   justify-content: center;
 }
 
-/* Slide transition */
-.slide-enter-active,
-.slide-leave-active {
+/* Slide-down transition */
+.slide-down-enter-active,
+.slide-down-leave-active {
   transition: transform 0.5s ease-in-out;
 }
 
-.slide-enter-from {
+.slide-down-enter-from {
+  transform: translateY(-100%);
+}
+
+.slide-down-enter-to {
+  transform: translateY(0);
+}
+
+.slide-down-leave-from {
+  transform: translateY(0);
+}
+
+.slide-down-leave-to {
+  transform: translateY(-100%);
+}
+
+/* Slide-left transition */
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide-left-enter-from {
   transform: translateX(100%);
 }
 
-.slide-enter-to {
+.slide-left-enter-to {
   transform: translateX(0);
 }
 
-.slide-leave-from {
+.slide-left-leave-from {
   transform: translateX(0);
 }
 
-.slide-leave-to {
+.slide-left-leave-to {
   transform: translateX(100%);
 }
 
-/* When route is active, push main content to the left */
-.app-container:has(.route-view) .main-content {
-  transform: translateX(-100%);
+.state-center {
+  transform: translate(0%, 0%);
+}
+.state-left {
+  transform: translate(-100%, 0%);
+}
+.state-up {
+  transform: translate(0%, -100%);
+}
+.state-right {
+  transform: translate(100%, 0%);
+}
+.state-down {
+  transform: translate(0%, 100%);
 }
 
 .clickable {
