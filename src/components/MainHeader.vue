@@ -53,6 +53,7 @@ const toggle = (event: Event) => {
 
 <template>
   <div class="header-bar">
+    <!-- ToDO: Change this to a menu like I have on my elder portfolio -->
     <div class="card flex justify-center">
         <Button type="button" icon="pi pi-align-justify" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" />
         <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" />
@@ -62,6 +63,7 @@ const toggle = (event: Event) => {
 
 <style scoped>
 .header-bar {
+  position: absolute;
   line-height: 1.5;
   max-height: 100vh;
 }

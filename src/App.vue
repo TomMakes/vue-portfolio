@@ -49,15 +49,17 @@ watch(() => route.path, (newPath) => {
   <div class="app-container">
     <div class="intro-content" :class="transitionObject">
       <MainHeader />
-      <div class="intro">
-        <h3> Hi, I'm Tom. </h3>
-        <h3> Learn more about me as a... </h3>
-        <ul>
-          <li @click="navigateToAbout" class="clickable"> Professional </li>
-          <li> Full Stack Engineer </li>
-          <li @click="navigateToFrontend" class="clickable"> Front End Engineer </li>
-          <li> Back End Engineer </li>
-        </ul>
+      <div class="intro-container">
+        <div class="intro">
+          <h3> Hi, I'm Tom. </h3>
+          <h3> Learn more about me as a... </h3>
+          <ul>
+            <li @click="navigateToAbout" class="clickable"> Professional </li>
+            <li> Full Stack Engineer </li>
+            <li @click="navigateToFrontend" class="clickable"> Front End Engineer </li>
+            <li> Back End Engineer </li>
+          </ul>
+        </div>
       </div>
     </div>
     <!-- documentation https://vuejs.org/guide/built-ins/transition -->
@@ -75,6 +77,12 @@ watch(() => route.path, (newPath) => {
 </template>
 
 <style scoped>
+.intro-container {
+  height: 100%;
+  border: 5px solid aliceblue;
+  display: flex;
+  align-items: center;
+}
 .intro {
   font-size: 3rem;
   max-width: fit-content;
