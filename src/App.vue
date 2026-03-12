@@ -51,7 +51,10 @@ watch(() => route.path, (newPath) => {
       <MainHeader />
       <div class="intro-container">
         <div class="intro">
-          <h3> Hi, I'm Tom. </h3>
+          <div id="greeting">
+            <h3>Hi,</h3>
+            <h3>I'm Tom.</h3>
+          </div>
           <h3> Learn more about me as a... </h3>
           <ul>
             <li @click="navigateToAbout" class="clickable"> Professional </li>
@@ -82,11 +85,15 @@ watch(() => route.path, (newPath) => {
   border: 5px solid aliceblue;
   display: flex;
   align-items: center;
-}
-.intro {
-  font-size: 3rem;
-  max-width: fit-content;
-  margin: auto;
+  .intro {
+    font-size: 3rem;
+    max-width: fit-content;
+    margin: auto;
+    #greeting {
+      padding-bottom: 1.3rem;
+      line-height: 4rem;
+    }
+  }
 }
 .app-container {
   position: relative;
@@ -187,7 +194,6 @@ watch(() => route.path, (newPath) => {
 }
 
 header {
-  line-height: 1.5;
   max-height: 100vh;
 }
 
@@ -232,22 +238,7 @@ button {
 }
 
 @media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
+  /* TODO: This looks deprecated, as do the other nav styles */
   nav {
     text-align: left;
     margin-left: -1rem;
