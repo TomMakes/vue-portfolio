@@ -1,45 +1,49 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterView } from 'vue-router'
 import MainHeader from './components/MainHeader.vue'
-import { reactive, ref, watch } from 'vue'
+import { reactive, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
-const name = ref('Unknown')
 const router = useRouter()
 const route = useRoute()
 
-const getName = async () => {
-  const res = await fetch('/api/')
-  const data = await res.json()
-  name.value = data.name
-}
+const portfolioState = {
+  home: {
+    'state-center': true,
+    'state-left': false,
+    'state-up': false,
+    'state-right': false,
+    'state-down': false,
+  },
+  about: {
+    'state-center': false,
+    'state-left': false,
+    'state-up': false,
+    'state-right': false,
+    'state-down': true,
+  },
+  frontend: {
+    'state-center': false,
+    'state-left': true,
+    'state-up': false,
+    'state-right': false,
+    'state-down': false,
+  }
+};
 
 const navigateToAbout = () => {
-  transitionObject['state-center'] = false;
-  transitionObject['state-down'] = true;
+  transitionObject['states'] = portfolioState.about;
   router.push('/about')
 }
 const navigateToFrontend = () => {
-  transitionObject['state-center'] = false;
-  transitionObject['state-left'] = true;
+  transitionObject['states'] = portfolioState.frontend;
   router.push('/frontend')
 }
-const transitionObject = reactive({
-  'state-left': false,
-  'state-up': false,
-  'state-right': false,
-  'state-down': false,
-  'state-center': true,
-});
+const transitionObject = reactive({ states: portfolioState.home });
 
 watch(() => route.path, (newPath) => {
   if (newPath === '/') {
-    transitionObject['state-center'] = true;
-    transitionObject['state-left'] = false;
-    transitionObject['state-up'] = false;
-    transitionObject['state-right'] = false;
-    transitionObject['state-down'] = false;
+    transitionObject['states'] = portfolioState.home;
   }
 })
 
@@ -47,8 +51,8 @@ watch(() => route.path, (newPath) => {
 
 <template>
   <div class="app-container">
-    <div class="intro-content" :class="transitionObject">
-      <MainHeader />
+    <MainHeader />
+    <div class="intro-content" :class="transitionObject.states">
       <div class="intro-container">
         <div class="intro">
           <div id="greeting">
