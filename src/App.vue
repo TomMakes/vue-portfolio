@@ -28,6 +28,20 @@ const portfolioState = {
     'state-up': false,
     'state-right': false,
     'state-down': false,
+  },
+  fullstack: {
+    'state-center': false,
+    'state-left': false,
+    'state-up': true,
+    'state-right': false,
+    'state-down': false,
+  },
+  backend: {
+    'state-center': false,
+    'state-left': false,
+    'state-up': false,
+    'state-right': true,
+    'state-down': false,
   }
 };
 
@@ -38,6 +52,14 @@ const navigateToAbout = () => {
 const navigateToFrontend = () => {
   transitionObject['states'] = portfolioState.frontend;
   router.push('/frontend')
+}
+const navigateToFullStack = () => {
+  transitionObject['states'] = portfolioState.fullstack;
+  router.push('/fullstack')
+}
+const navigateToBackend = () => {
+  transitionObject['states'] = portfolioState.backend;
+  router.push('/backend')
 }
 const transitionObject = reactive({ states: portfolioState.home });
 
@@ -62,9 +84,9 @@ watch(() => route.path, (newPath) => {
           <h3> Learn more about me as a... </h3>
           <ul>
             <li @click="navigateToAbout" class="clickable"> Professional </li>
-            <li> Full Stack Engineer </li>
+            <li @click="navigateToFullStack" class="clickable"> Full Stack Engineer </li>
             <li @click="navigateToFrontend" class="clickable"> Front End Engineer </li>
-            <li> Back End Engineer </li>
+            <li @click="navigateToBackend" class="clickable"> Back End Engineer </li>
           </ul>
         </div>
       </div>
@@ -72,6 +94,16 @@ watch(() => route.path, (newPath) => {
     <!-- documentation https://vuejs.org/guide/built-ins/transition -->
     <Transition name="slide-left">
       <div class="route-view" v-if="$route.path === '/frontend'">
+        <RouterView />
+      </div>
+    </Transition>
+    <Transition name="slide-up">
+      <div class="route-view" v-if="$route.path === '/fullstack'">
+        <RouterView />
+      </div>
+    </Transition>
+    <Transition name="slide-right">
+      <div class="route-view" v-if="$route.path === '/backend'">
         <RouterView />
       </div>
     </Transition>
@@ -86,7 +118,6 @@ watch(() => route.path, (newPath) => {
 <style scoped>
 .intro-container {
   height: 100%;
-  border: 5px solid aliceblue;
   display: flex;
   align-items: center;
   .intro {
@@ -101,6 +132,7 @@ watch(() => route.path, (newPath) => {
 }
 .app-container {
   position: relative;
+  border: 5px solid aliceblue;
   width: 100%;
   height: 100vh;
   overflow: hidden;
@@ -170,6 +202,51 @@ watch(() => route.path, (newPath) => {
   transform: translateX(100%);
 }
 
+/* Slide-up transition */
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide-up-enter-from {
+  transform: translateY(100%);
+}
+
+.slide-up-enter-to {
+  transform: translateY(0);
+}
+
+.slide-up-leave-from {
+  transform: translateY(0);
+}
+
+.slide-up-leave-to {
+  transform: translateY(100%);
+}
+
+/* Slide-right transition */
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide-right-enter-from {
+  transform: translateX(-100%);
+}
+
+.slide-right-enter-to {
+  transform: translateX(0);
+}
+
+.slide-right-leave-from {
+  transform: translateX(0);
+}
+
+.slide-right-leave-to {
+  transform: translateX(-100%);
+}
+
+/** Transition state class styles */
 .state-center {
   transform: translate(0%, 0%);
 }
