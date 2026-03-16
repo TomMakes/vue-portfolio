@@ -37,7 +37,6 @@
   --color-text: var(--vt-c-text-light-1);
   --color-link: var(--vt-c-text-light-link);
 
-  --section-gap: 160px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -64,7 +63,6 @@
 }
 
 body {
-  min-height: 100vh; /* Why is this here? */
   color: var(--color-text);
   background: var(--color-background);
   transition: /* Why is this here? */
@@ -86,7 +84,7 @@ body {
     'Droid Sans',
     'Helvetica Neue',
     sans-serif;
-  font-size: 15px;
+  font-size: 1rem;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
